@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.phan.kata.cucumber</groupId>
+    <artifactId>cucumber-integration</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <!-- JDK source/target encoding and version -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <main.class>org.phan.kata.cucumber.integration.DreamCarMain</main.class>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.28</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>4.7.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>4.7.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.fge/json-schema-validator -->
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>2.2.6</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                mvn assembly:single
+                  or
+                mvn package
+
+                a jar file with name <project-name>-<version>-jar-with-dependencies.jar will
+                be created in the target folder
+
+                to run/execute, from the project root folder:
+
+                java -jar target/<project-name>-<version>-jar-with-dependencies.jar
+            -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${main.class}</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                mvn exec:java -Dhttp.ProxyHost=proxy.phan.org
+            -->
+            <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
